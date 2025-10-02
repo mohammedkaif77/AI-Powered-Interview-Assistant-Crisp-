@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Interview Assistant</title>
+    
+    <!-- Ant Design CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/reset.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/antd@5.12.8/dist/antd.min.css" rel="stylesheet">
+    
+    <!-- Ant Design Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@ant-design/icons@5.2.6/lib/index.min.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="ant-spin ant-spin-lg">
+                <span class="ant-spin-dot ant-spin-dot-spin">
+                    <i class="ant-spin-dot-item"></i>
+                    <i class="ant-spin-dot-item"></i>
+                    <i class="ant-spin-dot-item"></i>
+                    <i class="ant-spin-dot-item"></i>
+                </span>
+            </div>
+            <div class="loading-text">Processing your request...</div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="ant-layout app-layout">
+        <!-- Header -->
+        <header class="ant-layout-header app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">🤖</div>
+                    <div class="logo-text">
+                        <h1>AI Interview Assistant</h1>
+                        <span class="logo-subtitle">Enterprise-grade technical interviews</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="theme-toggle">
+                        <button id="themeToggle" class="ant-btn ant-btn-text">
+                            <span class="theme-icon">🌙</span>
+                        </button>
+                    </div>
+                    <div class="user-profile">
+                        <div class="ant-avatar ant-avatar-circle">
+                            <span>AD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="ant-layout">
+            <div class="ant-layout-content app-content">
+                <div class="content-wrapper">
+                    <!-- Navigation Tabs -->
+                    <div class="ant-tabs ant-tabs-top main-tabs" id="mainTabs">
+                        <div class="ant-tabs-nav">
+                            <div class="ant-tabs-nav-wrap">
+                                <div class="ant-tabs-nav-list">
+                                    <div class="ant-tabs-tab ant-tabs-tab-active" data-tab="interviewee">
+                                        <div class="ant-tabs-tab-btn">
+                                            <span class="tab-icon">👤</span>
+                                            <span>Interviewee Portal</span>
+                                        </div>
+                                    </div>
+                                    <div class="ant-tabs-tab" data-tab="interviewer">
+                                        <div class="ant-tabs-tab-btn">
+                                            <span class="tab-icon">📊</span>
+                                            <span>Interviewer Dashboard</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Interviewee Content -->
+                        <div class="ant-tabs-tabpane ant-tabs-tabpane-active" id="intervieweeContent">
+                            <!-- Welcome Section -->
+                            <div id="welcomeSection" class="interview-step active">
+                                <div class="ant-card welcome-card">
+                                    <div class="ant-card-head">
+                                        <div class="ant-card-head-wrapper">
+                                            <div class="ant-card-head-title">Welcome to Your Technical Interview</div>
+                                        </div>
+                                    </div>
+                                    <div class="ant-card-body">
+                                        <div class="welcome-content">
+                                            <div class="welcome-hero">
+                                                <div class="hero-icon">🎯</div>
+                                                <h2>Let's Get Started</h2>
+                                                <p class="hero-description">
+                                                    This AI-powered interview will assess your technical skills through a series of questions. 
+                                                    The process typically takes 15-30 minutes.
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="ant-steps ant-steps-horizontal process-steps">
+                                                <div class="ant-steps-item ant-steps-item-wait">
+                                                    <div class="ant-steps-item-container">
+                                                        <div class="ant-steps-item-icon">
+                                                            <span class="ant-steps-icon">1</span>
+                                                        </div>
+                                                        <div class="ant-steps-item-content">
+                                                            <div class="ant-steps-item-title">Upload Resume</div>
+                                                            <div class="ant-steps-item-description">Share your background</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ant-steps-item ant-steps-item-wait">
+                                                    <div class="ant-steps-item-container">
+                                                        <div class="ant-steps-item-icon">
+                                                            <span class="ant-steps-icon">2</span>
+                                                        </div>
+                                                        <div class="ant-steps-item-content">
+                                                            <div class="ant-steps-item-title">Complete Profile</div>
+                                                            <div class="ant-steps-item-description">Provide missing details</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ant-steps-item ant-steps-item-wait">
+                                                    <div class="ant-steps-item-container">
+                                                        <div class="ant-steps-item-icon">
+                                                            <span class="ant-steps-icon">3</span>
+                                                        </div>
+                                                        <div class="ant-steps-item-content">
+                                                            <div class="ant-steps-item-title">Technical Interview</div>
+                                                            <div class="ant-steps-item-description">Answer technical questions</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="welcome-actions">
+                                                <button id="startInterviewBtn" class="ant-btn ant-btn-primary ant-btn-lg">
+                                                    <span>Start Interview</span>
+                                                    <span class="btn-icon">→</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upload Section -->
+                            <div id="uploadSection" class="interview-step">
+                                <div class="ant-card">
+                                    <div class="ant-card-head">
+                                        <div class="ant-card-head-wrapper">
+                                            <div class="ant-card-head-title">
+                                                <span class="step-number">Step 1:</span> Upload Your Resume
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ant-card-body">
+                                        <div class="upload-container">
+                                            <div class="ant-upload ant-upload-drag" id="resumeUpload">
+                                                <div class="ant-upload-drag-container">
+                                                    <div class="ant-upload-drag-icon">
+                                                        <div class="upload-icon">📄</div>
+                                                    </div>
+                                                    <div class="ant-upload-text">
+                                                        <div class="upload-title">Click or drag file to this area to upload</div>
+                                                        <div class="upload-hint">Support for a single PDF file only. Maximum file size: 5MB</div>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="resumeInput" accept=".pdf" style="display: none;">
+                                            </div>
+                                            
+                                            <div id="uploadStatus" class="upload-status hidden">
+                                                <div class="ant-alert ant-alert-success">
+                                                    <div class="ant-alert-content">
+                                                        <div class="ant-alert-message">Resume uploaded successfully!</div>
+                                                        <div class="ant-alert-description" id="uploadedFileName"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="ant-progress ant-progress-line processing-progress">
+                                                    <div class="ant-progress-outer">
+                                                        <div class="ant-progress-inner">
+                                                            <div class="ant-progress-bg" id="processingBar"></div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="ant-progress-text">Processing...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Info Collection Section -->
+                            <div id="infoSection" class="interview-step">
+                                <div class="ant-card">
+                                    <div class="ant-card-head">
+                                        <div class="ant-card-head-wrapper">
+                                            <div class="ant-card-head-title">
+                                                <span class="step-number">Step 2:</span> Complete Your Profile
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ant-card-body">
+                                        <div class="chat-interface">
+                                            <div class="chat-messages" id="infoChat">
+                                                <!-- Messages will be populated here -->
+                                            </div>
+                                            <div class="chat-input-area">
+                                                <div class="ant-input-group">
+                                                    <input type="text" id="infoInput" class="ant-input chat-input" placeholder="Type your response...">
+                                                    <button id="infoSubmitBtn" class="ant-btn ant-btn-primary" disabled>
+                                                        <span>Send</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interview Section -->
+                            <div id="interviewSection" class="interview-step">
+                                <div class="interview-header">
+                                    <div class="ant-card interview-progress-card">
+                                        <div class="ant-card-body">
+                                            <div class="progress-section">
+                                                <div class="progress-info">
+                                                    <h4 id="progressText">Question 1 of 6</h4>
+                                                    <div class="ant-progress ant-progress-line">
+                                                        <div class="ant-progress-outer">
+                                                            <div class="ant-progress-inner">
+                                                                <div class="ant-progress-bg" id="progressBar"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="timer-section">
+                                                    <div class="timer-display">
+                                                        <div class="timer-circle">
+                                                            <div class="timer-value" id="timerValue">60</div>
+                                                        </div>
+                                                        <div class="timer-label">seconds remaining</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ant-card interview-card">
+                                    <div class="ant-card-body">
+                                        <div class="chat-interface">
+                                            <div class="chat-messages" id="interviewChat">
+                                                <!-- Interview messages will be populated here -->
+                                            </div>
+                                            <div class="chat-input-area">
+                                                <div class="answer-input-container">
+                                                    <textarea id="answerInput" class="ant-input answer-textarea" 
+                                                        placeholder="Type your answer here..." rows="4"></textarea>
+                                                    <div class="input-controls">
+                                                        <span id="charCounter" class="char-counter">0 characters</span>
+                                                        <button id="submitAnswerBtn" class="ant-btn ant-btn-primary" disabled>
+                                                            Submit Answer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Completion Section -->
+                            <div id="completionSection" class="interview-step">
+                                <div class="ant-card completion-card">
+                                    <div class="ant-card-body">
+                                        <div class="completion-content">
+                                            <div class="completion-hero">
+                                                <div class="completion-icon">🎉</div>
+                                                <h2>Interview Complete!</h2>
+                                                <p>Thank you for taking the time to complete our technical interview.</p>
+                                            </div>
+                                            
+                                            <div class="score-display">
+                                                <div class="ant-statistic final-score">
+                                                    <div class="ant-statistic-title">Your Final Score</div>
+                                                    <div class="ant-statistic-content">
+                                                        <span class="ant-statistic-content-value" id="finalScore">85</span>
+                                                    </div>
+                                                </div>
+                                                <div class="score-badge">
+                                                    <div class="ant-badge-status ant-badge-status-success"></div>
+                                                    <span id="scoreCategory" class="score-category-text">Good Performance</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="completion-actions">
+                                                <button id="viewResultsBtn" class="ant-btn ant-btn-default">
+                                                    View Detailed Results
+                                                </button>
+                                                <button id="startNewBtn" class="ant-btn ant-btn-primary">
+                                                    Start New Interview
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interviewer Dashboard Content -->
+                        <div class="ant-tabs-tabpane" id="interviewerContent">
+                            <!-- Dashboard Header -->
+                            <div class="dashboard-header">
+                                <div class="ant-card dashboard-metrics">
+                                    <div class="ant-card-body">
+                                        <div class="metrics-grid">
+                                            <div class="ant-statistic metric-item">
+                                                <div class="ant-statistic-title">Total Interviews</div>
+                                                <div class="ant-statistic-content">
+                                                    <span class="ant-statistic-content-value" id="totalInterviews">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="ant-statistic metric-item">
+                                                <div class="ant-statistic-title">Average Score</div>
+                                                <div class="ant-statistic-content">
+                                                    <span class="ant-statistic-content-value" id="averageScore">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="ant-statistic metric-item">
+                                                <div class="ant-statistic-title">Completion Rate</div>
+                                                <div class="ant-statistic-content">
+                                                    <span class="ant-statistic-content-value" id="completionRate">0</span>
+                                                    <span class="ant-statistic-content-suffix">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filters and Search -->
+                            <div class="dashboard-controls">
+                                <div class="ant-card">
+                                    <div class="ant-card-body">
+                                        <div class="controls-row">
+                                            <div class="search-section">
+                                                <div class="ant-input-group ant-input-search">
+                                                    <input type="text" id="candidateSearch" class="ant-input" 
+                                                        placeholder="Search by name or email...">
+                                                    <span class="ant-input-group-addon">
+                                                        <button class="ant-input-search-button">🔍</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="filter-section">
+                                                <select id="scoreFilter" class="ant-select-selection-search-input">
+                                                    <option value="all">All Scores</option>
+                                                    <option value="excellent">Excellent (90-100)</option>
+                                                    <option value="good">Good (71-89)</option>
+                                                    <option value="average">Average (41-70)</option>
+                                                    <option value="poor">Poor (0-40)</option>
+                                                </select>
+                                            </div>
+                                            <div class="export-section">
+                                                <button id="exportBtn" class="ant-btn ant-btn-default">
+                                                    <span>Export Data</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Candidates Table -->
+                            <div class="candidates-section">
+                                <div class="ant-card">
+                                    <div class="ant-card-head">
+                                        <div class="ant-card-head-wrapper">
+                                            <div class="ant-card-head-title">Interview Results</div>
+                                        </div>
+                                    </div>
+                                    <div class="ant-card-body">
+                                        <div class="ant-table-wrapper">
+                                            <div class="ant-table">
+                                                <table>
+                                                    <thead class="ant-table-thead">
+                                                        <tr>
+                                                            <th class="ant-table-cell">Candidate</th>
+                                                            <th class="ant-table-cell sortable" data-sort="score">Score</th>
+                                                            <th class="ant-table-cell sortable" data-sort="date">Date</th>
+                                                            <th class="ant-table-cell">Status</th>
+                                                            <th class="ant-table-cell">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="ant-table-tbody" id="candidatesTableBody">
+                                                        <!-- Candidates will be populated here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <div id="emptyState" class="ant-empty hidden">
+                                                <div class="ant-empty-image">
+                                                    <div class="empty-icon">📋</div>
+                                                </div>
+                                                <div class="ant-empty-description">
+                                                    <span>No interview data available</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Candidate Details Modal -->
+    <div id="candidateModal" class="ant-modal-mask hidden">
+        <div class="ant-modal-wrap">
+            <div class="ant-modal candidate-details-modal">
+                <div class="ant-modal-content">
+                    <div class="ant-modal-header">
+                        <div class="ant-modal-title" id="candidateModalTitle">Candidate Details</div>
+                        <button class="ant-modal-close" id="closeCandidateModal">
+                            <span class="ant-modal-close-x">×</span>
+                        </button>
+                    </div>
+                    <div class="ant-modal-body" id="candidateDetailsBody">
+                        <!-- Details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Back Modal -->
+    <div id="welcomeBackModal" class="ant-modal-mask hidden">
+        <div class="ant-modal-wrap">
+            <div class="ant-modal">
+                <div class="ant-modal-content">
+                    <div class="ant-modal-header">
+                        <div class="ant-modal-title">Welcome Back!</div>
+                    </div>
+                    <div class="ant-modal-body">
+                        <div class="welcome-back-content">
+                            <div class="ant-alert ant-alert-info">
+                                <div class="ant-alert-content">
+                                    <div class="ant-alert-message">Interview in Progress</div>
+                                    <div class="ant-alert-description">
+                                        You have an incomplete interview. Would you like to continue where you left off?
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-info">
+                                <span id="modalProgressText">Question 3 of 6</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-footer">
+                        <button id="startNewInterviewBtn" class="ant-btn ant-btn-default">Start New Interview</button>
+                        <button id="continueInterviewBtn" class="ant-btn ant-btn-primary">Continue Interview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
